@@ -1,3 +1,3 @@
-module github.com/chiahsuanchu/go-jsonrpc-demo
+module go-jsonrpc-demo
 
 go 1.21.3
