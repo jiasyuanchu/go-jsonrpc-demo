@@ -2,7 +2,9 @@ package main
 
 import (
 	"log"
+	"net/rpc"
 	"net/rpc/jsonrpc"
+	"time"
 )
 
 type Args struct {
@@ -10,19 +12,33 @@ type Args struct {
 }
 
 func main() {
-	// connect to the server
-	client, err := jsonrpc.Dial("tcp", "localhost:1234")
+	var client *rpc.Client
+	var err error
+
+	for i := 0; i < 3; i++ {
+		client, err = jsonrpc.Dial("tcp", "localhost:1234")
+		if err == nil {
+			break
+		}
+		time.Sleep(2 * time.Second)
+	}
+
 	if err != nil {
 		log.Fatal("Connection error:", err)
 	}
 	defer client.Close()
 
-	// prepare arguments
 	args := &Args{3, 5}
 	var reply int
 
-	// call the remote procedure
-	err = client.Call("Arith.Add", args, &reply)
+	for i := 0; i < 3; i++ {
+		err = client.Call("Arith.Add", args, &reply)
+		if err == nil {
+			break
+		}
+		time.Sleep(2 * time.Second)
+	}
+
 	if err != nil {
 		log.Fatal("Failed to call Arith.Add:", err)
 	}
