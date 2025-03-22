@@ -49,7 +49,3 @@ JSON-RPC Server is running on port 1234
 ```sh
 Result: 3 + 5 = 8
 ```
-
-## License
-This project is licensed under the MIT License.
-
